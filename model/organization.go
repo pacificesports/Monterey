@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Organization struct {
-	ID                 int       `json:"id"`
+	ID                 string    `json:"id"`
 	Name               string    `json:"name"`
 	Tag                string    `json:"tag"`
 	Bio                string    `json:"bio"`
@@ -16,4 +16,8 @@ type Organization struct {
 	Verified           bool      `json: "verified"`
 	UpdatedAt          time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 	CreatedAt          time.Time `gorm:"autoCreateTime" json:"created_at"`
+}
+
+func (Organization) TableName() string {
+	return "organization"
 }
