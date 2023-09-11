@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fremont/config"
-	"fremont/controller"
-	"fremont/service"
-	"fremont/utils"
+	"monterey/config"
+	"monterey/controller"
+	"monterey/service"
+	"monterey/utils"
 
 	"github.com/gin-gonic/gin"
 )

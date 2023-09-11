@@ -1,7 +1,7 @@
 package config
 
 import (
-	"fremont/model"
+	"monterey/model"
 	"os"
 	"strings"
 )

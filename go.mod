@@ -1,4 +1,4 @@
-module fremont
+module monterey
 
 go 1.20
 

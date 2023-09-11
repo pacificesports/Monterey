@@ -3,8 +3,8 @@ package service
 import (
 	"bytes"
 	"encoding/json"
-	"fremont/config"
-	"fremont/utils"
+	"monterey/config"
+	"monterey/utils"
 	"net/http"
 	"os"
 	"strconv"

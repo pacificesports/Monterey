@@ -2,8 +2,8 @@ package service
 
 import (
 	"fmt"
-	"fremont/config"
-	"fremont/utils"
+	"monterey/config"
+	"monterey/utils"
 	"time"
 
 	"gorm.io/driver/postgres"

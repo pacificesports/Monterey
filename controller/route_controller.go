@@ -2,9 +2,9 @@ package controller
 
 import (
 	"context"
-	"fremont/config"
-	"fremont/service"
-	"fremont/utils"
+	"monterey/config"
+	"monterey/service"
+	"monterey/utils"
 	"log"
 	"strings"
 

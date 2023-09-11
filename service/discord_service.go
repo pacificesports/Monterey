@@ -1,8 +1,8 @@
 package service
 
 import (
-	"fremont/config"
-	"fremont/utils"
+	"monterey/config"
+	"monterey/utils"
 
 	"github.com/bwmarrin/discordgo"
 )
