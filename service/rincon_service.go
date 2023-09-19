@@ -56,6 +56,8 @@ func RegisterRincon() {
 		RegisterRinconRoute("/" + strings.ToLower(config.Service.Name))
 		RegisterRinconRoute("/organizations")
 		RegisterRinconRoute("/teams")
+		RegisterRinconRoute("/users/organizations")
+		RegisterRinconRoute("/users/teams")
 	}
 }
 

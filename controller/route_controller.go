@@ -13,16 +13,31 @@ import (
 
 func InitializeRoutes(router *gin.Engine) {
 	router.GET("/"+strings.ToLower(config.Service.Name)+"/ping", Ping)
+	router.GET("/users/organizations/:userID", GetAllOrganizationsForUser)
+	router.GET("/users/teams/:userID", GetAllTeamsForUser)
+
 	router.GET("/organizations", GetAllOrganizations)
 	router.GET("/organizations/:organizationID", GetOrganizationByID)
 	router.POST("/organizations", CreateOrganization)
 	router.GET("/organizations/:organizationID/teams", GetTeamsForOrganization)
 	router.POST("/organizations/:organizationID/teams/:teamID", AddTeamToOrganization)
 	router.DELETE("/organizations/:organizationID/teams/:teamID", RemoveTeamFromOrganization)
+	router.GET("/organizations/:organizationID/users", GetAllUsersForOrganization)
+	router.GET("/organizations/:organizationID/users/:userID", GetUserForOrganization)
+	router.POST("/organizations/:organizationID/users/:userID", SetUserForOrganization)
+	router.DELETE("/organizations/:organizationID/users/:userID", RemoveUserFromOrganization)
+	router.GET("/organizations/:organizationID/users/:userID/roles", GetRolesForUserForOrganization)
+	router.POST("/organizations/:organizationID/users/:userID/roles", SetRolesForUserForOrganization)
 
 	router.GET("/teams", GetAllTeams)
 	router.GET("/teams/:teamID", GetTeamByID)
 	router.POST("/teams", CreateTeam)
+	router.GET("/teams/:teamID/users", GetAllUsersForTeam)
+	router.GET("/teams/:teamID/users/:userID", GetUserForTeam)
+	router.POST("/teams/:teamID/users/:userID", SetUserForTeam)
+	router.DELETE("/teams/:teamID/users/:userID", RemoveUserFromTeam)
+	router.GET("/teams/:teamID/users/:userID/roles", GetRolesForUserForTeam)
+	router.POST("/teams/:teamID/users/:userID/roles", SetRolesForUserForTeam)
 }
 
 func RequestLogger() gin.HandlerFunc {
