@@ -34,3 +34,42 @@ func CreateOrganization(organization model.Organization) error {
 	}
 	return nil
 }
+
+func GetTeamsForOrganization(organizationID string) []model.Team {
+	var orgTeams []model.OrganizationTeam
+	teams := make([]model.Team, 0)
+	result := DB.Where("organization_id = ?", organizationID).Find(&orgTeams)
+	if result.Error != nil {
+		utils.SugarLogger.Errorln(result.Error.Error())
+	}
+	for _, orgTeam := range orgTeams {
+		teams = append(teams, GetTeamByID(orgTeam.TeamID))
+	}
+	return teams
+}
+
+func CheckTeamInOrganization(organizationID string, teamID string) bool {
+	var orgTeam model.OrganizationTeam
+	result := DB.Where("organization_id = ? AND team_id = ?", organizationID, teamID).First(&orgTeam)
+	if result.Error != nil {
+		utils.SugarLogger.Errorln(result.Error.Error())
+	}
+	return orgTeam.OrganizationID != ""
+}
+
+func AddTeamToOrganization(organizationID string, teamID string) error {
+	if result := DB.Create(&model.OrganizationTeam{
+		OrganizationID: organizationID,
+		TeamID:         teamID,
+	}); result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+func RemoveTeamFromOrganization(organizationID string, teamID string) error {
+	if result := DB.Where("organization_id = ? AND team_id = ?", organizationID, teamID).Delete(&model.OrganizationTeam{}); result.Error != nil {
+		return result.Error
+	}
+	return nil
+}

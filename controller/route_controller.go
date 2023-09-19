@@ -2,10 +2,10 @@ package controller
 
 import (
 	"context"
+	"log"
 	"monterey/config"
 	"monterey/service"
 	"monterey/utils"
-	"log"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -13,6 +13,16 @@ import (
 
 func InitializeRoutes(router *gin.Engine) {
 	router.GET("/"+strings.ToLower(config.Service.Name)+"/ping", Ping)
+	router.GET("/organizations", GetAllOrganizations)
+	router.GET("/organizations/:organizationID", GetOrganizationByID)
+	router.POST("/organizations", CreateOrganization)
+	router.GET("/organizations/:organizationID/teams", GetTeamsForOrganization)
+	router.POST("/organizations/:organizationID/teams/:teamID", AddTeamToOrganization)
+	router.DELETE("/organizations/:organizationID/teams/:teamID", RemoveTeamFromOrganization)
+
+	router.GET("/teams", GetAllTeams)
+	router.GET("/teams/:teamID", GetTeamByID)
+	router.POST("/teams", CreateTeam)
 }
 
 func RequestLogger() gin.HandlerFunc {

@@ -6,7 +6,7 @@ import (
 )
 
 type Organization struct {
-	ID                 string    `json:"id"`
+	ID                 string    `gorm:"primaryKey" json:"id"`
 	Name               string    `json:"name"`
 	Tag                string    `json:"tag"`
 	Bio                string    `json:"bio"`
@@ -26,8 +26,8 @@ func (Organization) TableName() string {
 }
 
 type OrganizationUser struct {
-	OrganizationID string          `json:"organization_id"`
-	UserID         string          `json:"user_id"`
+	OrganizationID string          `gorm:"primaryKey" json:"organization_id"`
+	UserID         string          `gorm:"primaryKey" json:"user_id"`
 	Title          string          `json:"title"`
 	Roles          []string        `gorm:"-" json:"roles"`
 	User           json.RawMessage `gorm:"-" json:"user"`
@@ -39,12 +39,22 @@ func (OrganizationUser) TableName() string {
 }
 
 type OrganizationUserRole struct {
-	OrganizationID string    `json:"organization_id"`
-	UserID         string    `json:"user_id"`
-	Role           string    `json:"role"`
+	OrganizationID string    `gorm:"primaryKey" json:"organization_id"`
+	UserID         string    `gorm:"primaryKey" json:"user_id"`
+	Role           string    `gorm:"primaryKey" json:"role"`
 	CreatedAt      time.Time `gorm:"autoCreateTime" json:"created_at"`
 }
 
 func (OrganizationUserRole) TableName() string {
 	return "organization_user_role"
+}
+
+type OrganizationTeam struct {
+	OrganizationID string    `gorm:"primaryKey" json:"organization_id"`
+	TeamID         string    `gorm:"primaryKey" json:"team_id"`
+	CreatedAt      time.Time `gorm:"autoCreateTime" json:"created_at"`
+}
+
+func (OrganizationTeam) TableName() string {
+	return "organization_team"
 }
