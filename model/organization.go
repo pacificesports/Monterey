@@ -48,13 +48,3 @@ type OrganizationUserRole struct {
 func (OrganizationUserRole) TableName() string {
 	return "organization_user_role"
 }
-
-type OrganizationTeam struct {
-	OrganizationID string    `gorm:"primaryKey" json:"organization_id"`
-	TeamID         string    `gorm:"primaryKey" json:"team_id"`
-	CreatedAt      time.Time `gorm:"autoCreateTime" json:"created_at"`
-}
-
-func (OrganizationTeam) TableName() string {
-	return "organization_team"
-}

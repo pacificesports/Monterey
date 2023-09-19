@@ -11,15 +11,19 @@ func GetAllTeams() []model.Team {
 	if result.Error != nil {
 		utils.SugarLogger.Errorln(result.Error.Error())
 	}
+	for i := range teams {
+		teams[i].BannerURL = GetBannerForTeam(teams[i].ID)
+	}
 	return teams
 }
 
 func GetTeamByID(teamID string) model.Team {
 	var team model.Team
-	result := DB.Where("team_id = ?", teamID).First(&team)
+	result := DB.Where("id = ?", teamID).First(&team)
 	if result.Error != nil {
 		utils.SugarLogger.Errorln(result.Error.Error())
 	}
+	team.BannerURL = GetBannerForTeam(teamID)
 	return team
 }
 
@@ -33,4 +37,16 @@ func CreateTeam(team model.Team) error {
 		utils.SugarLogger.Infoln("Team with id: " + team.ID + " has been updated!")
 	}
 	return nil
+}
+
+func GetBannerForTeam(teamID string) string {
+	var teamOrg model.TeamOrganization
+	result := DB.Where("team_id = ?", teamID).First(&teamOrg)
+	if result.Error != nil {
+		utils.SugarLogger.Errorln(result.Error.Error())
+	}
+	if teamOrg.OrganizationID != "" {
+		return GetOrganizationByID(teamOrg.OrganizationID).BannerURL
+	}
+	return ""
 }

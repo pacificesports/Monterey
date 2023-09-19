@@ -1,9 +1,8 @@
 package utils
 
 import (
-	"rincon/config"
-
 	"go.uber.org/zap"
+	"monterey/config"
 )
 
 var Logger *zap.Logger

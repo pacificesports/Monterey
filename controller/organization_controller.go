@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"monterey/model"
 	"monterey/service"
 	"net/http"
@@ -14,6 +15,10 @@ func GetAllOrganizations(c *gin.Context) {
 
 func GetOrganizationByID(c *gin.Context) {
 	result := service.GetOrganizationByID(c.Param("organizationID"))
+	if result.ID == "" {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Failed to find organization with id: " + c.Param("organizationID")})
+		return
+	}
 	c.JSON(http.StatusOK, result)
 }
 
@@ -22,6 +27,9 @@ func CreateOrganization(c *gin.Context) {
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
+	}
+	if input.ID == "" {
+		input.ID = uuid.New().String()
 	}
 	if result := service.CreateOrganization(input); result != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": result.Error()})

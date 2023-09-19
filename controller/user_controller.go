@@ -14,6 +14,10 @@ func GetAllUsersForOrganization(c *gin.Context) {
 
 func GetUserForOrganization(c *gin.Context) {
 	result := service.GetUserForOrganization(c.Param("organizationID"), c.Param("userID"))
+	if result.UserID == "" {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Failed to find user with id: " + c.Param("userID") + " in organization with id: " + c.Param("organizationID")})
+		return
+	}
 	c.JSON(http.StatusOK, result)
 }
 
@@ -23,6 +27,7 @@ func SetUserForOrganization(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
+	input.OrganizationID = c.Param("organizationID")
 	if err := service.SetUserForOrganization(input); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
@@ -50,6 +55,10 @@ func GetAllUsersForTeam(c *gin.Context) {
 
 func GetUserForTeam(c *gin.Context) {
 	result := service.GetUserForTeam(c.Param("teamID"), c.Param("userID"))
+	if result.UserID == "" {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Failed to find user with id: " + c.Param("userID") + " in team with id: " + c.Param("teamID")})
+		return
+	}
 	c.JSON(http.StatusOK, result)
 }
 
@@ -59,6 +68,7 @@ func SetUserForTeam(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
+	input.TeamID = c.Param("teamID")
 	if err := service.SetUserForTeam(input); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return

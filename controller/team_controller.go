@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"monterey/model"
 	"monterey/service"
 	"net/http"
@@ -14,6 +15,10 @@ func GetAllTeams(c *gin.Context) {
 
 func GetTeamByID(c *gin.Context) {
 	result := service.GetTeamByID(c.Param("teamID"))
+	if result.ID == "" {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Failed to find team with id: " + c.Param("teamID")})
+		return
+	}
 	c.JSON(http.StatusOK, result)
 }
 
@@ -22,6 +27,9 @@ func CreateTeam(c *gin.Context) {
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
+	}
+	if input.ID == "" {
+		input.ID = uuid.New().String()
 	}
 	if result := service.CreateTeam(input); result != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": result.Error()})

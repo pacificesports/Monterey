@@ -16,7 +16,7 @@ func GetAllOrganizations() []model.Organization {
 
 func GetOrganizationByID(organizationID string) model.Organization {
 	var organization model.Organization
-	result := DB.Where("organization_id = ?", organizationID).First(&organization)
+	result := DB.Where("id = ?", organizationID).First(&organization)
 	if result.Error != nil {
 		utils.SugarLogger.Errorln(result.Error.Error())
 	}
@@ -36,7 +36,7 @@ func CreateOrganization(organization model.Organization) error {
 }
 
 func GetTeamsForOrganization(organizationID string) []model.Team {
-	var orgTeams []model.OrganizationTeam
+	var orgTeams []model.TeamOrganization
 	teams := make([]model.Team, 0)
 	result := DB.Where("organization_id = ?", organizationID).Find(&orgTeams)
 	if result.Error != nil {
@@ -49,7 +49,7 @@ func GetTeamsForOrganization(organizationID string) []model.Team {
 }
 
 func CheckTeamInOrganization(organizationID string, teamID string) bool {
-	var orgTeam model.OrganizationTeam
+	var orgTeam model.TeamOrganization
 	result := DB.Where("organization_id = ? AND team_id = ?", organizationID, teamID).First(&orgTeam)
 	if result.Error != nil {
 		utils.SugarLogger.Errorln(result.Error.Error())
@@ -58,7 +58,7 @@ func CheckTeamInOrganization(organizationID string, teamID string) bool {
 }
 
 func AddTeamToOrganization(organizationID string, teamID string) error {
-	if result := DB.Create(&model.OrganizationTeam{
+	if result := DB.Create(&model.TeamOrganization{
 		OrganizationID: organizationID,
 		TeamID:         teamID,
 	}); result.Error != nil {
@@ -68,7 +68,7 @@ func AddTeamToOrganization(organizationID string, teamID string) error {
 }
 
 func RemoveTeamFromOrganization(organizationID string, teamID string) error {
-	if result := DB.Where("organization_id = ? AND team_id = ?", organizationID, teamID).Delete(&model.OrganizationTeam{}); result.Error != nil {
+	if result := DB.Where("organization_id = ? AND team_id = ?", organizationID, teamID).Delete(&model.TeamOrganization{}); result.Error != nil {
 		return result.Error
 	}
 	return nil

@@ -18,7 +18,6 @@ type Team struct {
 	SocialTwitterURL   string    `json:"social_twitter_url"`
 	SocialInstagramURL string    `json:"social_instagram_url"`
 	SocialTikTokURL    string    `json:"social_tiktok_url"`
-	Verified           bool      `json:"verified"`
 	UpdatedAt          time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 	CreatedAt          time.Time `gorm:"autoCreateTime" json:"created_at"`
 }
@@ -49,4 +48,14 @@ type TeamUserRole struct {
 
 func (TeamUserRole) TableName() string {
 	return "team_user_role"
+}
+
+type TeamOrganization struct {
+	TeamID         string    `gorm:"primaryKey" json:"team_id"`
+	OrganizationID string    `json:"organization_id"`
+	CreatedAt      time.Time `gorm:"autoCreateTime" json:"created_at"`
+}
+
+func (TeamOrganization) TableName() string {
+	return "team_organization"
 }
