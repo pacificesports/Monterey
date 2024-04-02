@@ -39,6 +39,13 @@ func CreateTeam(team model.Team) error {
 	return nil
 }
 
+func DeleteTeam(teamID string) error {
+	if result := DB.Where("id = ?", teamID).Delete(&model.Team{}); result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
 func GetBannerForTeam(teamID string) string {
 	var teamOrg model.TeamOrganization
 	result := DB.Where("team_id = ?", teamID).First(&teamOrg)

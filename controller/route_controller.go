@@ -32,6 +32,7 @@ func InitializeRoutes(router *gin.Engine) {
 	router.GET("/teams", GetAllTeams)
 	router.GET("/teams/:teamID", GetTeamByID)
 	router.POST("/teams", CreateTeam)
+	router.DELETE("/teams/:teamID", DeleteTeam)
 	router.GET("/teams/:teamID/users", GetAllUsersForTeam)
 	router.GET("/teams/:teamID/users/:userID", GetUserForTeam)
 	router.POST("/teams/:teamID/users", SetUserForTeam)

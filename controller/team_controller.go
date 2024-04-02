@@ -37,3 +37,12 @@ func CreateTeam(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, service.GetTeamByID(input.ID))
 }
+
+func DeleteTeam(c *gin.Context) {
+	result := service.DeleteTeam(c.Param("teamID"))
+	if result != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": result.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Team deleted successfully"})
+}
